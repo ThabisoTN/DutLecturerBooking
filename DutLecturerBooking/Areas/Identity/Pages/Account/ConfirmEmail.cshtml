@@ -5,4 +5,10 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+@if (!string.IsNullOrEmpty(Model.StatusMessage))
+{
+    <div class="alert alert-info">
+        @Model.StatusMessage
+    </div>
+}
