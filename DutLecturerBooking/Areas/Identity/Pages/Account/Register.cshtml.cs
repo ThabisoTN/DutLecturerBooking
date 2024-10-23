@@ -91,9 +91,6 @@ namespace DutLecturerBooking.Areas.Identity.Pages.Account
             [Required]
             public string Role { get; set; }
 
-            [Required]
-            [Display(Name = "Course Name")]
-            public string CourseName { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -102,19 +99,13 @@ namespace DutLecturerBooking.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             // Fetch Faculties
-            Faculties = await _context.Faculties
-                .Select(f => new SelectListItem { Value = f.FacultyId.ToString(), Text = f.FacultyName })
-                .ToListAsync();
+            Faculties = await _context.Faculties.Select(f => new SelectListItem { Value = f.FacultyId.ToString(), Text = f.FacultyName }).ToListAsync();
 
             // Fetch Departments
-            Departments = await _context.Departments
-                .Select(d => new SelectListItem { Value = d.DepartmentId.ToString(), Text = d.DepartmentName })
-                .ToListAsync();
+            Departments = await _context.Departments.Select(d => new SelectListItem { Value = d.DepartmentId.ToString(), Text = d.DepartmentName }).ToListAsync();
 
             // Fetch Roles
-            Roles = await _roleManager.Roles
-                .Select(r => new SelectListItem { Value = r.Name, Text = r.Name })
-                .ToListAsync();
+            Roles = await _roleManager.Roles.Select(r => new SelectListItem { Value = r.Name, Text = r.Name }).ToListAsync();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -131,8 +122,7 @@ namespace DutLecturerBooking.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     Faculty = Input.FacultyId.ToString(),
-                    Department = Input.DepartmentId.ToString(),
-                    CourseName = Input.CourseName
+                    Department = Input.DepartmentId.ToString()
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);

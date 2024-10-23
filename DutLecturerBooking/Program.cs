@@ -1,4 +1,5 @@
 using DutLecturerBooking.Data;
+using DutLecturerBooking.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,10 +21,10 @@ namespace DutLecturerBooking
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             // Register Identity services and add support for roles
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<IdentityRole>()  // <-- Add this line to support roles
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
+            
+            builder.Services.AddScoped<LecturerService>();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -56,8 +57,8 @@ namespace DutLecturerBooking
 
             app.UseRouting();
 
-            app.UseAuthentication(); // <-- Ensure Authentication is added here
-            app.UseAuthorization();  // <-- Ensure Authorization is added here
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",

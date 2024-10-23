@@ -41,7 +41,7 @@ namespace DutLecturerBooking.Services
                     smtpClient.Host = "smtp.office365.com";  // SMTP server
                     smtpClient.EnableSsl = true;  // Enable SSL
                     smtpClient.UseDefaultCredentials = false;
-                    smtpClient.Credentials = new NetworkCredential("Go4toro@faniehome.com", "Mossgert@2018");  // Credentials
+                    smtpClient.Credentials = new NetworkCredential("Go4toro@faniehome.com", "Mossgert@2018");
                     smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
 
                     // Send the email

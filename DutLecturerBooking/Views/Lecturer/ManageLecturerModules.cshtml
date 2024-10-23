@@ -1,0 +1,45 @@
+﻿@model IEnumerable<DutLecturerBooking.Data.LecturerModules>
+
+@{
+    ViewData["Title"] = "Manage Modules";
+}
+
+<h1>Manage Modules</h1>
+
+<a asp-action="SaveLecturerModule" class="btn btn-primary">Add New Module</a>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Module Name</th>
+            <th>Course</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lecturerModule in Model)
+        {
+            <tr>
+                <td>@lecturerModule.Modules.ModuleName</td> <!-- Display module name -->
+                <td>@lecturerModule.Course.CourseName</td> <!-- Display course name -->
+                <td>
+                    <a asp-action="EditModule" asp-route-id="@lecturerModule.LecturerModuleId" class="btn btn-warning">Edit</a>
+                    <a asp-action="DeleteModule" asp-route-id="@lecturerModule.LecturerModuleId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

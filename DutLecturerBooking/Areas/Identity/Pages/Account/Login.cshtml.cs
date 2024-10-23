@@ -1,16 +1,11 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
+﻿#nullable disable
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -21,11 +16,13 @@ namespace DutLecturerBooking.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager; // Injected UserManager
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
+            _userManager = userManager;  // Assign the injected UserManager
             _logger = logger;
         }
 
@@ -84,6 +81,30 @@ namespace DutLecturerBooking.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in successfully with email {Email}.", Input.Email);
+
+                    // Get the logged-in user
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                    if (user != null)
+                    {
+                        // Check if the user is in the "Lecturer" role
+                        if (await _userManager.IsInRoleAsync(user, "Lecturer"))
+                        {
+                            // Redirect to the lecturer index page
+                            return RedirectToAction("Index", "Lecturer");
+                        }
+
+                        // Check if the user is in the "Admin" role
+                        if (await _userManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            // Redirect to the admin index page
+                            return RedirectToAction("Index", "Admin");
+                        }
+
+                        // Otherwise, redirect to the default page
+                        return LocalRedirect(returnUrl);
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
 

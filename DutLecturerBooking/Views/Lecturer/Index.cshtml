@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecturer Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: white;
+            color: #0044cc;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+            .navbar a {
+                color: #0044cc;
+                text-decoration: none;
+                margin-right: 20px;
+                font-size: 1.1rem;
+            }
+
+                .navbar a:hover {
+                    color: #ff9900;
+                }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 60px; /* Same height as the navbar */
+            left: 0;
+            width: 250px;
+            height: calc(100vh - 60px);
+            background-color: darkgrey;
+            color: white;
+            padding: 20px;
+            z-index: 999;
+        }
+
+            .sidebar h2 {
+                color: #ff9900;
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+
+            .sidebar a {
+                display: block;
+                color: white;
+                text-decoration: none;
+                margin: 10px 0;
+                font-size: 1.1rem;
+                padding: 5px;
+                transition: background-color 0.3s;
+            }
+
+                .sidebar a:hover {
+                    background-color: #003399;
+                }
+
+        /* Main content */
+        .main-content {
+            margin-left: 240px; /* Adjust to match sidebar width */
+            padding: 20px;
+            padding-top: 80px; /* To avoid content being hidden behind the navbar */
+        }
+
+            .main-content h1 {
+                font-size: 2.5rem;
+                color: #0044cc;
+            }
+
+            .main-content .overview {
+                display: flex;
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+        }
+
+            .card h3 {
+                font-size: 1.2rem;
+                color: #0044cc;
+            }
+
+            .card p {
+                font-size: 1rem;
+                color: #666;
+                margin: 15px 0;
+            }
+
+            .card button {
+                background-color: #ff9900;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+                .card button:hover {
+                    background-color: #ff7700;
+                }
+
+        /* Footer */
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 40px;
+        }
+
+            .footer p {
+                margin: 0;
+                font-size: 1rem;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Section -->
+    <div class="sidebar">
+        <h2>Lecturer Dashboard</h2>
+        <a href="#">Dashboard</a>
+        <a href="#">Upcoming Consultations</a>
+        <a href="#">Schedule</a>
+        <a href="#">Manage Availability</a>
+        <a href="#">Profile</a>
+        <a href="#">Logout</a>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="main-content">
+        <h1>Welcome, Lecturer!</h1>
+        <p>Quick Overview</p>
+        <div class="overview">
+            <div class="card">
+                <h3>Upcoming Consultations</h3>
+                <p>You have 5 upcoming consultations for this week.</p>
+                <button>View Details</button>
+            </div>
+            <div class="card">
+                <h3>Scheduled Meetings</h3>
+                <p>3 meetings scheduled with students today.</p>
+                <button>View Schedule</button>
+            </div>
+            <div class="card">
+                <h3>Your Availability</h3>
+             <p>Manage Consultation Availability</p>
+                <a href="@Url.Action("ManageAvailability", "Lecturer")">
+                    <button>Manage Availability</button>
+                </a>
+            </div>
+            <div class="card">
+                <h3>Your Modules</h3>
+                <p>Manage modules you teach</p>
+                <a href="@Url.Action("ManageLecturerModules", "Lecturer")">
+                    <button>Manage Modules</button>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+</html>

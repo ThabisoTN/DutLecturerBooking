@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Assign Module to Lecturer";
+}
+
+<h1>Assign Module to Lecturer</h1>
+
+<!-- Display success or error messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<form asp-action="SaveLecturerModule" method="post">
+    <div class="form-group">
+        <label for="CourseId">Select Course</label>
+        <select name="courseId" id="courseId" class="form-control" required>
+            <option value="">-- Select a Course --</option>
+            @foreach (var course in ViewBag.Courses)
+            {
+                <option value="@course.CourseId">@course.CourseName</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="ModuleId">Select Module</label>
+        <select name="moduleId" id="moduleId" class="form-control" required>
+            <option value="">-- Select a Module --</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Assign Module</button>
+</form>
+
+@section Scripts {
+    <script type="text/javascript">
+        // When a course is selected, fetch the related modules via AJAX
+        $(document).ready(function () {
+            $('#courseId').change(function () {
+                var courseId = $(this).val();
+
+                // Clear the modules dropdown
+                $('#moduleId').empty();
+                $('#moduleId').append('<option value="">-- Select a Module --</option>');
+
+                if (courseId) {
+                    // Fetch modules using AJAX
+                    $.ajax({
+                        url: '@Url.Action("GetModulesByCourse", "Lecturer")',
+                        type: 'GET',
+                        data: { courseId: courseId },
+                        success: function (data) {
+                            $.each(data, function (index, module) {
+                                $('#moduleId').append('<option value="' + module.moduleId + '">' + module.moduleName + '</option>');
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

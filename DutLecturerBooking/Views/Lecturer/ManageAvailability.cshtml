@@ -1,0 +1,49 @@
+﻿@model IEnumerable<DutLecturerBooking.Data.LecturerConsultationAvailability>
+
+@{
+    ViewData["Title"] = "Manage Consultation Availability";
+}
+
+<h1>Manage Consultation Availability</h1>
+
+<!-- Display success or error messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+<a asp-action="SetAvailability" class="btn btn-primary">Set New Availability</a>
+<!-- Table to display all availability entries -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Module</th>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var availability in Model)
+        {
+            <tr>
+                <td>@availability.Modules.ModuleName</td> <!-- Display module name -->
+                <td>@availability.ConsultationDate.ToShortDateString()</td> <!-- Display date -->
+                <td>@availability.StartTime</td> <!-- Display start time -->
+                <td>@availability.EndTime</td> <!-- Display end time -->
+                <td>
+                    <a asp-action="EditAvailability" asp-route-id="@availability.ConsultationId" class="btn btn-warning">Edit</a>
+                    <a asp-action="DeleteAvailability" asp-route-id="@availability.ConsultationId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

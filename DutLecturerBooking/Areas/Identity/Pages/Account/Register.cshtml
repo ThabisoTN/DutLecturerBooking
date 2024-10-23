@@ -13,6 +13,20 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
+            <!-- First Name -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.FirstName" class="form-control" placeholder="First Name" />
+                <label asp-for="Input.FirstName">First Name</label>
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.LastName" class="form-control" placeholder="Last Name" />
+                <label asp-for="Input.LastName">Last Name</label>
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+
             <!-- Email -->
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" placeholder="Email" />
@@ -34,20 +48,6 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
 
-            <!-- First Name -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.FirstName" class="form-control" placeholder="First Name" />
-                <label asp-for="Input.FirstName">First Name</label>
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-            </div>
-
-            <!-- Last Name -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.LastName" class="form-control" placeholder="Last Name" />
-                <label asp-for="Input.LastName">Last Name</label>
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
-
             <!-- Faculty Dropdown -->
             <div class="form-floating mb-3">
                 <select asp-for="Input.FacultyId" asp-items="Model.Faculties" class="form-control">
@@ -66,6 +66,7 @@
                 <span asp-validation-for="Input.DepartmentId" class="text-danger"></span>
             </div>
 
+
             <!-- Role Dropdown -->
             <div class="form-floating mb-3">
                 <select asp-for="Input.Role" asp-items="Model.Roles" class="form-control">
@@ -73,13 +74,6 @@
                 </select>
                 <label asp-for="Input.Role">Role</label>
                 <span asp-validation-for="Input.Role" class="text-danger"></span>
-            </div>
-
-            <!-- Course Name -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.CourseName" class="form-control" placeholder="Course Name" />
-                <label asp-for="Input.CourseName">Course Name</label>
-                <span asp-validation-for="Input.CourseName" class="text-danger"></span>
             </div>
 
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>

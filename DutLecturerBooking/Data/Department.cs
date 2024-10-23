@@ -1,10 +1,20 @@
-﻿namespace DutLecturerBooking.Data
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DutLecturerBooking.Data
 {
     public class Department
     {
-        public int DepartmentId {  get; set; }
-        public int FacultyId { set; get; }
-        public String DepartmentName { set;get; }
-        public Faculty Faculty { set; get; }
+        [Key]
+        public int DepartmentId { get; set; }
+
+        [Required]  
+        public string DepartmentName { get; set; }
+
+
+        public int FacultyId { get; set; }
+
+        public Faculty Faculty { get; set; }
+
     }
 }
