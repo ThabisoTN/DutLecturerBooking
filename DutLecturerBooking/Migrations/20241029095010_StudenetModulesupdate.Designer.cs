@@ -4,6 +4,7 @@ using DutLecturerBooking.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DutLecturerBooking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241029095010_StudenetModulesupdate")]
+    partial class StudenetModulesupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -284,18 +287,24 @@ namespace DutLecturerBooking.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentModuleId"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModulesModuleId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StudentModuleId");
 
-                    b.HasIndex("ModuleId");
+                    b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ModulesModuleId");
 
                     b.ToTable("StudentModules");
                 });
@@ -535,15 +544,13 @@ namespace DutLecturerBooking.Migrations
 
             modelBuilder.Entity("DutLecturerBooking.Data.StudentModules", b =>
                 {
-                    b.HasOne("DutLecturerBooking.Data.Modules", "Modules")
-                        .WithMany()
-                        .HasForeignKey("ModuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DutLecturerBooking.Data.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("DutLecturerBooking.Data.Modules", "Modules")
+                        .WithMany()
+                        .HasForeignKey("ModulesModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

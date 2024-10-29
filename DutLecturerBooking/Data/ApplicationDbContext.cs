@@ -17,6 +17,8 @@ namespace DutLecturerBooking.Data
         public DbSet<LecturerModules> LecturerModules { get; set; }
         public DbSet<LecturerConsultationAvailability> lecturerConsultationAvailabilities { set; get; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<StudentCourse> StudentCourses { get; set; }
+        public DbSet<StudentModules> StudentModules { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

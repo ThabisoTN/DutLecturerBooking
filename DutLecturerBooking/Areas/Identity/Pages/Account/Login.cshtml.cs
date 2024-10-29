@@ -100,6 +100,10 @@ namespace DutLecturerBooking.Areas.Identity.Pages.Account
                             // Redirect to the admin index page
                             return RedirectToAction("Index", "Admin");
                         }
+                        if (await _userManager.IsInRoleAsync(user, "Student"))
+                        {
+                            return RedirectToAction("Index", "Student");
+                        }
 
                         // Otherwise, redirect to the default page
                         return LocalRedirect(returnUrl);

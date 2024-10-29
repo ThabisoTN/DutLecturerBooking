@@ -1,0 +1,150 @@
+﻿@{
+    bool isRegistered = ViewBag.IsRegistered ?? false;
+}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+        color: #007bff;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    /* Form Styles */
+    form {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    select {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        transition: border-color 0.3s ease;
+    }
+
+    select:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.1rem;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    /* Course Information Styles */
+    .registered-course-info {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    .registered-course-info p {
+        font-size: 1rem;
+        margin: 8px 0;
+    }
+</style>
+
+<h1>Manage Course</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (isRegistered)
+{
+    <div class="registered-course-info">
+        <h2>Your Registered Course</h2>
+        <p><strong>Course Name:</strong> @ViewBag.RegisteredCourse.CourseName</p>
+        <p><strong>Department:</strong> @ViewBag.RegisteredCourse.Department.DepartmentName</p>
+    </div>
+}
+else
+{
+    <h2>Register for a Course</h2>
+    <form asp-action="RegisterCourse" method="post">
+        <label for="course">Select a Course:</label>
+        <select id="course" name="courseId" required>
+            @foreach (var course in ViewBag.AvailableCourses)
+            {
+                <option value="@course.CourseId">@course.CourseName</option>
+            }
+        </select>
+        <button type="submit">Register</button>
+    </form>
+}

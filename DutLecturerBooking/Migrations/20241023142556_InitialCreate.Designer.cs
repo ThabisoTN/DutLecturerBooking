@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DutLecturerBooking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241023110732_ModuleidForeignkeyset")]
-    partial class ModuleidForeignkeyset
+    [Migration("20241023142556_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -255,6 +255,45 @@ namespace DutLecturerBooking.Migrations
                     b.ToTable("Modules");
                 });
 
+            modelBuilder.Entity("DutLecturerBooking.Data.StudentCourse", b =>
+                {
+                    b.Property<int>("StudentCourseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentCourseId"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StudentCourseId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("StudentCourses");
+                });
+
+            modelBuilder.Entity("DutLecturerBooking.Data.StudentModules", b =>
+                {
+                    b.Property<int>("StudentModuleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentModuleId"));
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModulesModuleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StudentModuleId");
+
+                    b.HasIndex("ModulesModuleId");
+
+                    b.ToTable("StudentModules");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -467,6 +506,28 @@ namespace DutLecturerBooking.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("DutLecturerBooking.Data.StudentCourse", b =>
+                {
+                    b.HasOne("DutLecturerBooking.Data.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("DutLecturerBooking.Data.StudentModules", b =>
+                {
+                    b.HasOne("DutLecturerBooking.Data.Modules", "Modules")
+                        .WithMany()
+                        .HasForeignKey("ModulesModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Modules");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

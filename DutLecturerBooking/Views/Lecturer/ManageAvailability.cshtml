@@ -35,10 +35,10 @@
         @foreach (var availability in Model)
         {
             <tr>
-                <td>@availability.Modules.ModuleName</td> <!-- Display module name -->
-                <td>@availability.ConsultationDate.ToShortDateString()</td> <!-- Display date -->
-                <td>@availability.StartTime</td> <!-- Display start time -->
-                <td>@availability.EndTime</td> <!-- Display end time -->
+                <td>@availability.Modules.ModuleName</td> 
+                <td>@availability.ConsultationDate.ToShortDateString()</td> 
+                <td>@availability.StartTime</td> 
+                <td>@availability.EndTime</td> 
                 <td>
                     <a asp-action="EditAvailability" asp-route-id="@availability.ConsultationId" class="btn btn-warning">Edit</a>
                     <a asp-action="DeleteAvailability" asp-route-id="@availability.ConsultationId" class="btn btn-danger">Delete</a>

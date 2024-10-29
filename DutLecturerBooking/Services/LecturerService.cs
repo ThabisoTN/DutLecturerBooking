@@ -51,6 +51,8 @@ namespace DutLecturerBooking.Services
             }
         }
 
+
+
         // Retrieve all modules taught by a specific lecturer
         public async Task<List<LecturerModules>> GetModulesForLecturerAsync(string userId)
         {

@@ -89,15 +89,12 @@ namespace DutLecturerBooking.Controllers
 
         public async Task<IActionResult> ManageAvailability()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the logged-in lecturer's ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
 
-            // Fetch all availability entries for the logged-in lecturer
-            var availabilities = await _context.lecturerConsultationAvailabilities
-                .Include(l => l.Modules) // Include related modules
-                .Where(l => l.UserId == userId)
-                .ToListAsync();
+            
+            var availabilities = await _context.lecturerConsultationAvailabilities.Include(l => l.Modules) .Where(l => l.UserId == userId).ToListAsync();
 
-            return View(availabilities); // Pass the data to the view
+            return View(availabilities); 
         }
 
 
@@ -138,7 +135,7 @@ namespace DutLecturerBooking.Controllers
             if (lecturerModule == null)
             {
                 ModelState.AddModelError("", "You are not authorized to set availability for this module.");
-                return View(model); // Return the view with the error
+                return View(model); 
             }
 
             // Ensure end time is after start time

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<DutLecturerBooking.Data.Modules>
+
+@{
+    ViewData["Title"] = "Register for Modules";
+}
+
+<h1>Register for Modules</h1>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (TempData["InfoMessage"] != null)
+{
+    <div class="alert alert-info" role="alert">
+        @TempData["InfoMessage"]
+    </div>
+}
+
+@if (Model.Any())
+{
+    <form asp-action="RegisterStudentModules" method="post">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Module Name</th>
+                    <th>Course</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var module in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="selectedModules" value="@module.ModuleId" />
+                        </td>
+                        <td>@module.ModuleName</td>
+                        <td>
+                            @if (module.Course != null)
+                            {
+                                @module.Course.CourseName
+                            }
+                            else
+                            {
+                                <span class="text-muted">No Course Assigned</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-primary">Register Selected Modules</button>
+    </form>
+}
+else
+{
+    <p>No available modules to register.</p>
+    <a href="@Url.Action("ManageStudentModules", "Student")" class="btn btn-secondary">Back to Registered Modules</a>
+}

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DutLecturerBooking.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialcreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -234,6 +234,25 @@ namespace DutLecturerBooking.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StudentCourses",
+                columns: table => new
+                {
+                    StudentCourseId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CourseId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentCourses", x => x.StudentCourseId);
+                    table.ForeignKey(
+                        name: "FK_StudentCourses_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "CourseId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "lecturerConsultationAvailabilities",
                 columns: table => new
                 {
@@ -244,8 +263,7 @@ namespace DutLecturerBooking.Migrations
                     EndTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ModuleId = table.Column<int>(type: "int", nullable: false),
-                    ModulesModuleId = table.Column<int>(type: "int", nullable: false)
+                    ModuleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -256,8 +274,8 @@ namespace DutLecturerBooking.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_lecturerConsultationAvailabilities_Modules_ModulesModuleId",
-                        column: x => x.ModulesModuleId,
+                        name: "FK_lecturerConsultationAvailabilities_Modules_ModuleId",
+                        column: x => x.ModuleId,
                         principalTable: "Modules",
                         principalColumn: "ModuleId",
                         onDelete: ReferentialAction.Cascade);
@@ -294,6 +312,26 @@ namespace DutLecturerBooking.Migrations
                         principalTable: "Modules",
                         principalColumn: "ModuleId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudentModules",
+                columns: table => new
+                {
+                    StudentModuleId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ModuleId = table.Column<int>(type: "int", nullable: false),
+                    ModulesModuleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentModules", x => x.StudentModuleId);
+                    table.ForeignKey(
+                        name: "FK_StudentModules_Modules_ModulesModuleId",
+                        column: x => x.ModulesModuleId,
+                        principalTable: "Modules",
+                        principalColumn: "ModuleId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -351,9 +389,9 @@ namespace DutLecturerBooking.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_lecturerConsultationAvailabilities_ModulesModuleId",
+                name: "IX_lecturerConsultationAvailabilities_ModuleId",
                 table: "lecturerConsultationAvailabilities",
-                column: "ModulesModuleId");
+                column: "ModuleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LecturerModules_CourseId",
@@ -374,6 +412,16 @@ namespace DutLecturerBooking.Migrations
                 name: "IX_Modules_CourseId",
                 table: "Modules",
                 column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentCourses_CourseId",
+                table: "StudentCourses",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentModules_ModulesModuleId",
+                table: "StudentModules",
+                column: "ModulesModuleId");
         }
 
         /// <inheritdoc />
@@ -399,6 +447,12 @@ namespace DutLecturerBooking.Migrations
 
             migrationBuilder.DropTable(
                 name: "LecturerModules");
+
+            migrationBuilder.DropTable(
+                name: "StudentCourses");
+
+            migrationBuilder.DropTable(
+                name: "StudentModules");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
