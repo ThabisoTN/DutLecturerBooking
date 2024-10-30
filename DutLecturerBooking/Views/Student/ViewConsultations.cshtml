@@ -1,0 +1,108 @@
+﻿@model IEnumerable<DutLecturerBooking.Data.LecturerConsultationAvailability>
+
+<!-- Page Styles -->
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #007bff;
+    }
+
+    .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        text-align: center;
+        background-color: #e9ecef;
+        color: #495057;
+    }
+
+    .table {
+        width: 80%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .table thead {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table th {
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .table td {
+            font-size: 0.95rem;
+        }
+
+    .btn {
+        color: #fff;
+        background-color: #007bff;
+        padding: 8px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        font-size: 0.9rem;
+    }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<h1>Available Consultations</h1>
+
+@if (TempData["InfoMessage"] != null)
+{
+    <div class="alert alert-info">@TempData["InfoMessage"]</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Module</th>
+            <th>Consultation Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Action</th> <!-- New column for the booking button -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var consultation in Model)
+        {
+            <tr>
+                <td>@consultation.Modules.ModuleName</td>
+                <td>@consultation.ConsultationDate.ToShortDateString()</td>
+                <td>@consultation.StartTime</td>
+                <td>@consultation.EndTime</td>
+                <td>
+                    <a asp-action="MakeBooking" asp-route-consultationId="@consultation.ConsultationId" class="btn">Make a Booking</a>
+                </td> <!-- Button next to each consultation slot -->
+            </tr>
+        }
+    </tbody>
+</table>

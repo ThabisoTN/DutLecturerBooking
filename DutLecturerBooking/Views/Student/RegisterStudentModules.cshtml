@@ -39,16 +39,7 @@
                             <input type="checkbox" name="selectedModules" value="@module.ModuleId" />
                         </td>
                         <td>@module.ModuleName</td>
-                        <td>
-                            @if (module.Course != null)
-                            {
-                                @module.Course.CourseName
-                            }
-                            else
-                            {
-                                <span class="text-muted">No Course Assigned</span>
-                            }
-                        </td>
+                        <td>@module.Course?.CourseName</td>
                     </tr>
                 }
             </tbody>

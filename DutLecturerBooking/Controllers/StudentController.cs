@@ -90,6 +90,8 @@ namespace DutLecturerBooking.Controllers
             return RedirectToAction(nameof(ManageCourse));
         }
 
+
+
         [HttpGet]
         public async Task<IActionResult> ManageStudentModules()
         {
@@ -125,24 +127,27 @@ namespace DutLecturerBooking.Controllers
                 return Unauthorized("User not logged in.");
             }
 
-            // Retrieve the list of modules the student is not already registered for
-            var registeredModuleIds = await _context.StudentModules
-                .Where(sm => sm.UserId == userId)
-                .Select(sm => sm.ModuleId)
-                .ToListAsync();
+            // Retrieve the course the student is registered for
+            var studentCourse = await _context.StudentCourses.Include(sc => sc.Course).FirstOrDefaultAsync(sc => sc.UserId == userId);
 
-            var availableModules = await _context.Modules
-                .Where(m => !registeredModuleIds.Contains(m.ModuleId))
-                .ToListAsync();
-
-            if (availableModules == null || !availableModules.Any())
+            if (studentCourse == null)
             {
-                TempData["InfoMessage"] = "No available modules to register.";
+                TempData["ErrorMessage"] = "You are not registered for any course.";
+                return RedirectToAction("ManageStudentModules");
+            }
+
+            // Get only the modules related to the student's cours
+            var availableModules = await _context.Modules.Where(m => m.CourseId == studentCourse.CourseId).ToListAsync();
+
+            if (!availableModules.Any())
+            {
+                TempData["InfoMessage"] = "No modules available to register under your course.";
                 return RedirectToAction("ManageStudentModules");
             }
 
             return View(availableModules);
         }
+
 
 
 
@@ -180,5 +185,54 @@ namespace DutLecturerBooking.Controllers
             TempData["SuccessMessage"] = "Modules registered successfully!";
             return RedirectToAction("ManageStudentModules");
         }
+
+
+        //get method to view consultation slot.
+        [HttpGet]
+        public async Task<IActionResult> ViewConsultations()
+        {
+            var userId = _userManager.GetUserId(User);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User not logged in.");
+            }
+
+            var studentModules = await _context.StudentModules
+                .Where(sm => sm.UserId == userId)
+                .Select(sm => sm.ModuleId)
+                .ToListAsync();
+
+            var availableConsultations = await _context.lecturerConsultationAvailabilities
+                .Where(ca => studentModules.Contains(ca.ModuleId))
+                .Include(ca => ca.Modules)
+                .Include(ca => ca.ApplicationUser) // Ensures lecturer data is loaded
+                .ToListAsync();
+
+            // Debug step: Log or inspect ApplicationUser data
+            foreach (var consultation in availableConsultations)
+            {
+                if (consultation.ApplicationUser == null)
+                {
+                    Console.WriteLine("No lecturer assigned to consultation with ID: " + consultation.ConsultationId);
+                }
+                else
+                {
+                    Console.WriteLine("Lecturer: " + consultation.ApplicationUser.FirstName + " " + consultation.ApplicationUser.LastName);
+                }
+            }
+
+            if (!availableConsultations.Any())
+            {
+                TempData["InfoMessage"] = "No available consultation slots for your registered modules.";
+            }
+
+            return View(availableConsultations);
+        }
+
+
+
     }
+
 }
+

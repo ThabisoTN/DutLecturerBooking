@@ -134,7 +134,8 @@ namespace DutLecturerBooking.Data
             {
                 var courses = new[]
                 {
-                    new Course { CourseName = "Advance Diploma in ICT", Departmentid = 2 }
+                    new Course { CourseName = "Advance Diploma in ICT", Departmentid = 2 },
+                    new Course {CourseName="Diploma in Application development", Departmentid=2}
                 };
                 
                 await context.Courses.AddRangeAsync(courses);
@@ -163,7 +164,10 @@ namespace DutLecturerBooking.Data
                     new Modules { ModuleName = "Software Development and Management", CourseId = 1},
                     new Modules { ModuleName = "Applied Mathematics for Computing", CourseId = 1 },
                     new Modules { ModuleName = "Machine Intelligence", CourseId = 1 },
-                    new Modules { ModuleName = "Business Intelligence", CourseId =  1 }
+                    new Modules { ModuleName = "Business Intelligence", CourseId =  1 },
+
+                    new Modules{ModuleName="Application development Project", CourseId=2},
+                    new Modules{ModuleName="Information System", CourseId=2 }
                 };
 
                 await context.Modules.AddRangeAsync(modules);
